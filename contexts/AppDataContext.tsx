@@ -9,6 +9,7 @@ import {
   scheduleAppointmentReminder,
   cancelAppointmentReminders,
 } from '@/services/notifications';
+import { getAppToday } from '@/utils/dateUtils';
 import {
   fetchMedications as fetchMedsRemote,
   fetchAppointments as fetchApptsRemote,
@@ -493,7 +494,7 @@ export const [AppDataProvider, useAppData] = createContextHook(() => {
   }, [medicationLogs, saveLogs]);
 
   const getTodayLogs = useCallback(() => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getAppToday();
     return medicationLogs.filter((l) => l.date === today);
   }, [medicationLogs]);
 

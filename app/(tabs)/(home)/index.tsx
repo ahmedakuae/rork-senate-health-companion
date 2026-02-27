@@ -31,6 +31,7 @@ import ImageViewer from '@/components/ImageViewer';
 import PillDosageIcon, { getDosageType } from '@/components/PillDosageIcon';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAppData } from '@/contexts/AppDataContext';
+import { getAppToday } from '@/utils/dateUtils';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Medication, SpecialScheduleEntry } from '@/types';
 
@@ -70,7 +71,7 @@ export default function DashboardScreen() {
     return t('goodEvening');
   }, [t]);
 
-  const todayStr = useMemo(() => new Date().toISOString().split('T')[0], []);
+  const todayStr = useMemo(() => getAppToday(), []);
 
   const todaySchedule = useMemo(() => {
     const schedule: ScheduleItem[] = [];
@@ -138,7 +139,7 @@ export default function DashboardScreen() {
   const totalCount = todaySchedule.length;
 
   const handleLogMedication = useCallback((medicationId: string, time: string, status: 'taken' | 'skipped') => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getAppToday();
     logMedication({
       id: `${medicationId}-${time}-${today}`,
       medicationId,
@@ -150,7 +151,7 @@ export default function DashboardScreen() {
   }, [logMedication]);
 
   const handleUndoLog = useCallback((medicationId: string, time: string) => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getAppToday();
     undoMedicationLog(medicationId, time, today);
   }, [undoMedicationLog]);
 
