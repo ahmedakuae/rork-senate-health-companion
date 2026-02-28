@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { Home, Pill, Calendar, MessageCircle } from "lucide-react-native";
+import { Home, Pill, Calendar, MessageCircle, Tv } from "lucide-react-native";
 import React from "react";
 import { Platform } from "react-native";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -54,6 +54,13 @@ export default function TabLayout() {
         options={{
           title: t('chat'),
           tabBarIcon: ({ color, size }) => <MessageCircle size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="tv"
+        options={{
+          title: t('tv'),
+          tabBarIcon: ({ color, size }) => <Tv size={size} color={color} />,
         }}
       />
     </Tabs>

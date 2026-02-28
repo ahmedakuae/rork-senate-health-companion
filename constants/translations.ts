@@ -91,6 +91,12 @@ const translations = {
     undo: 'Undo',
     darkMode: 'Dark Mode',
     lightMode: 'Light Mode',
+    tv: 'TV',
+    tapToWatch: 'Tap to watch',
+    newEpisode: 'NEW',
+    loading: 'Loading',
+    videoError: 'Could not load the video. Please try again.',
+    retry: 'Retry',
   },
   ar: {
     appName: 'سند',
@@ -184,6 +190,12 @@ const translations = {
     undo: 'تراجع',
     darkMode: 'الوضع الداكن',
     lightMode: 'الوضع الفاتح',
+    tv: 'التلفاز',
+    tapToWatch: 'اضغط للمشاهدة',
+    newEpisode: 'جديد',
+    loading: 'جاري التحميل',
+    videoError: 'تعذر تحميل الفيديو. حاول مرة أخرى.',
+    retry: 'إعادة المحاولة',
   },
 };
 
