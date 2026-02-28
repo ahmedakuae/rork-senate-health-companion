@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ChevronLeft, Play, Tv } from 'lucide-react-native';
-import { VideoView, useVideoPlayer } from 'expo-video';
 import { WebView } from 'react-native-webview';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -12,43 +11,47 @@ const VIDEO_URL = 'http://dub.sh/sharabtoot';
 const VIDEO_HTML = `<!doctype html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <style>
-    html, body { margin: 0; padding: 0; background: #000; height: 100%; overflow: hidden; }
-    video { width: 100%; height: 100%; background: #000; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+    video { width: 100%; height: 100%; object-fit: contain; background: #000; }
   </style>
 </head>
 <body>
-  <video controls playsinline webkit-playsinline preload="metadata" src="${VIDEO_URL}"></video>
+  <video
+    controls
+    playsinline
+    webkit-playsinline
+    preload="metadata"
+    src="${VIDEO_URL}"
+  ></video>
 </body>
 </html>`;
 
-function ExpoVideoPlayer() {
-  const player = useVideoPlayer(VIDEO_URL, (createdPlayer) => {
-    createdPlayer.loop = false;
-  });
+function VideoPlayer() {
+  if (Platform.OS === 'web') {
+    return (
+      <View style={styles.video}>
+        <iframe
+          src={VIDEO_URL}
+          style={{ width: '100%', height: '100%', border: 'none', backgroundColor: '#000' } as any}
+          allow="autoplay; fullscreen"
+          allowFullScreen
+        />
+      </View>
+    );
+  }
 
-  return (
-    <VideoView
-      player={player}
-      style={styles.video}
-      nativeControls
-      allowsFullscreen
-      allowsPictureInPicture
-      contentFit="contain"
-    />
-  );
-}
-
-function WebViewVideoPlayer() {
   return (
     <WebView
       source={{ html: VIDEO_HTML }}
       style={styles.video}
-      allowsFullscreenVideo
+      allowsFullscreenVideo={true}
       mediaPlaybackRequiresUserAction={false}
-      javaScriptEnabled
-      domStorageEnabled
+      javaScriptEnabled={true}
+      domStorageEnabled={true}
+      allowsInlineMediaPlayback={true}
       testID="tv-webview-player"
     />
   );
@@ -58,11 +61,10 @@ export default function TVScreen() {
   const { colors, isDark } = useTheme();
   const { t, isRTL } = useLanguage();
   const [showPlayer, setShowPlayer] = useState<boolean>(false);
-  const [useWebViewFallback, setUseWebViewFallback] = useState<boolean>(false);
 
   if (!showPlayer) {
     return (
-      <View style={[styles.container, { backgroundColor: colors.background }]}> 
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.header}>
             <Text style={[styles.headerTitle, { color: colors.text }, isRTL && styles.rtlText]}>{t('tv')}</Text>
@@ -117,18 +119,7 @@ export default function TVScreen() {
       </SafeAreaView>
 
       <View style={styles.videoWrapper}>
-        {useWebViewFallback ? <WebViewVideoPlayer /> : <ExpoVideoPlayer />}
-
-        <TouchableOpacity
-          style={styles.compatibilityButton}
-          onPress={() => {
-            console.log('[TV] User switched to WebView compatibility player');
-            setUseWebViewFallback(true);
-          }}
-          testID="compatibility-player-button"
-        >
-          <Text style={styles.compatibilityButtonText}>Open compatibility player</Text>
-        </TouchableOpacity>
+        <VideoPlayer />
       </View>
     </View>
   );
@@ -138,7 +129,7 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   safeArea: { flex: 1 },
   header: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 16 },
-  headerTitle: { fontSize: 28, fontWeight: '800', letterSpacing: -0.5 },
+  headerTitle: { fontSize: 28, fontWeight: '800' as const, letterSpacing: -0.5 },
   rtlText: { textAlign: 'right', writingDirection: 'rtl' },
   rtlRow: { flexDirection: 'row-reverse' },
   episodeListContainer: { flex: 1, paddingHorizontal: 16 },
@@ -159,9 +150,9 @@ const styles = StyleSheet.create({
   },
   episodeInfo: { padding: 16 },
   episodeTextContainer: { gap: 6 },
-  showTitle: { color: '#F43F5E', fontSize: 22, fontWeight: '800' },
-  episodeTitle: { fontSize: 18, fontWeight: '700' },
-  episodeSubtitle: { fontSize: 14, fontWeight: '500' },
+  showTitle: { color: '#F43F5E', fontSize: 22, fontWeight: '800' as const },
+  episodeTitle: { fontSize: 18, fontWeight: '700' as const },
+  episodeSubtitle: { fontSize: 14, fontWeight: '500' as const },
   playerContainer: { flex: 1, backgroundColor: '#000' },
   playerTopBar: {
     flexDirection: 'row',
@@ -178,35 +169,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   playerTitleContainer: { alignItems: 'center' },
-  playerShowTitle: { color: '#F43F5E', fontSize: 15, fontWeight: '800' },
-  playerEpTitle: { color: '#FFF', fontSize: 13, fontWeight: '600', marginTop: 2 },
+  playerShowTitle: { color: '#F43F5E', fontSize: 15, fontWeight: '800' as const },
+  playerEpTitle: { color: '#FFF', fontSize: 13, fontWeight: '600' as const, marginTop: 2 },
   rightSpacer: { width: 40 },
   videoWrapper: { flex: 1, backgroundColor: '#000' },
   video: { flex: 1, backgroundColor: '#000' },
-  compatibilityButton: {
-    position: 'absolute',
-    right: 14,
-    bottom: 16,
-    backgroundColor: 'rgba(17,24,39,0.9)',
-    borderWidth: 1,
-    borderColor: 'rgba(244,63,94,0.7)',
-    borderRadius: 999,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-  },
-  compatibilityButtonText: {
-    color: '#F9FAFB',
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  errorCard: {
-    margin: 24,
-    padding: 16,
-    borderRadius: 14,
-    backgroundColor: '#111827',
-    borderWidth: 1,
-    borderColor: '#374151',
-  },
-  errorTitle: { color: '#F9FAFB', fontSize: 16, fontWeight: '700' },
-  errorSubtitle: { color: '#D1D5DB', fontSize: 13, marginTop: 8, lineHeight: 18 },
 });
