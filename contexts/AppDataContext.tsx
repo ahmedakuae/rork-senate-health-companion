@@ -69,7 +69,6 @@ const SEED_MEDICATIONS: Medication[] = [
     imageUrl: 'https://pub-e001eb4506b145aa938b5d3badbff6a5.r2.dev/attachments/35kk3uy8dr7k6gl1yyrm0',
     color: '#3B82F6',
     mealTiming: 'before_meal',
-    endDate: '2026-03-04',
   },
   {
     id: 'pantolife_seed',
@@ -86,7 +85,6 @@ const SEED_MEDICATIONS: Medication[] = [
     sideEffectsAr: ['صداع', 'غثيان', 'ألم في المعدة'],
     imageUrl: 'https://pub-e001eb4506b145aa938b5d3badbff6a5.r2.dev/attachments/lmrd2c5kmuqhk3ophcl5d',
     color: '#8B5CF6',
-    endDate: '2026-03-04',
   },
   {
     id: 'glucophage_seed',
