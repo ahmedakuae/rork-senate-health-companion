@@ -1,7 +1,7 @@
-const RESET_HOUR_UTC = 1; // 5:00 AM UTC+4 = 1:00 AM UTC
+const GMT_PLUS_4_OFFSET_MS = 4 * 60 * 60 * 1000;
 
 export function getAppToday(): string {
   const now = new Date();
-  const adjusted = new Date(now.getTime() - RESET_HOUR_UTC * 60 * 60 * 1000);
-  return adjusted.toISOString().split('T')[0];
+  const localTime = new Date(now.getTime() + GMT_PLUS_4_OFFSET_MS);
+  return localTime.toISOString().split('T')[0];
 }
