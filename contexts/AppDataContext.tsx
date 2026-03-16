@@ -32,7 +32,7 @@ const MEDICATIONS_KEY = 'senate_medications';
 const APPOINTMENTS_KEY = 'senate_appointments';
 const LOGS_KEY = 'senate_medication_logs';
 const SEED_KEY = 'senate_seeded_v5';
-const DEX_MIGRATION_KEY = 'senate_dex_schedule_migrated_v3';
+const DEX_MIGRATION_KEY = 'senate_dex_schedule_migrated_v4';
 const INITIAL_SYNC_KEY = 'senate_initial_sync_done';
 
 const SEED_MEDICATIONS: Medication[] = [
@@ -109,71 +109,52 @@ const SEED_MEDICATIONS: Medication[] = [
     id: 'dexamethasone_seed',
     name: 'DEXAMETHASONE / NOVUDEX 4 MG',
     nameAr: 'ديكساميثازون / نوفيودكس ٤ مجم - دواء كورتيزون',
-    dosage: '2-4 MG - special schedule',
-    dosageAr: '٢-٤ مجم - جدول خاص',
-    frequency: 'Special tapering schedule',
-    frequencyAr: 'جدول تدريجي خاص',
-    timeSlots: ['08:00', '21:00'],
-    instructions: 'Take after meals. Follow the special tapering schedule carefully.',
-    instructionsAr: 'يؤخذ بعد الأكل. اتبع الجدول التدريجي الخاص بعناية.',
+    dosage: '2 MG - Half pill',
+    dosageAr: 'نصف حبة (٢ مجم)',
+    frequency: 'Special tapering then daily',
+    frequencyAr: 'جدول تدريجي ثم يومياً',
+    timeSlots: ['08:00'],
+    instructions: 'Take after meals. Follow the special tapering schedule carefully. From March 22 onwards: 2 MG daily at 8:00 AM.',
+    instructionsAr: 'يؤخذ بعد الأكل. اتبع الجدول التدريجي الخاص بعناية. من ٢٢ مارس فصاعداً: ٢ مجم يومياً الساعة ٨:٠٠ صباحاً.',
     sideEffects: ['Increased appetite', 'Insomnia', 'Mood changes', 'Weight gain'],
     sideEffectsAr: ['زيادة الشهية', 'أرق', 'تغيرات مزاجية', 'زيادة الوزن'],
     imageUrl: 'https://pub-e001eb4506b145aa938b5d3badbff6a5.r2.dev/attachments/2kqziaxpjrs64f4e949ak',
     color: '#F59E0B',
     mealTiming: 'after_meal',
-    endDate: '2026-03-06',
     specialSchedule: [
       {
-        date: '2026-02-27',
+        date: '2026-03-17',
         doses: [
           { time: '08:00', dosage: 'One pill (4 MG)', dosageAr: 'حبة واحدة (٤ مجم)' },
           { time: '21:00', dosage: 'Half pill (2 MG)', dosageAr: 'نصف حبة (٢ مجم)' },
         ],
       },
       {
-        date: '2026-02-28',
+        date: '2026-03-18',
         doses: [
           { time: '08:00', dosage: 'One pill (4 MG)', dosageAr: 'حبة واحدة (٤ مجم)' },
           { time: '21:00', dosage: 'Half pill (2 MG)', dosageAr: 'نصف حبة (٢ مجم)' },
         ],
       },
       {
-        date: '2026-03-01',
+        date: '2026-03-19',
         doses: [
           { time: '08:00', dosage: 'Half pill (2 MG)', dosageAr: 'نصف حبة (٢ مجم)' },
           { time: '21:00', dosage: 'Half pill (2 MG)', dosageAr: 'نصف حبة (٢ مجم)' },
         ],
       },
       {
-        date: '2026-03-02',
+        date: '2026-03-20',
         doses: [
           { time: '08:00', dosage: 'Half pill (2 MG)', dosageAr: 'نصف حبة (٢ مجم)' },
           { time: '21:00', dosage: 'Half pill (2 MG)', dosageAr: 'نصف حبة (٢ مجم)' },
         ],
       },
       {
-        date: '2026-03-03',
+        date: '2026-03-21',
         doses: [
           { time: '08:00', dosage: 'Half pill (2 MG)', dosageAr: 'نصف حبة (٢ مجم)' },
           { time: '21:00', dosage: 'Half pill (2 MG)', dosageAr: 'نصف حبة (٢ مجم)' },
-        ],
-      },
-      {
-        date: '2026-03-04',
-        doses: [
-          { time: '08:00', dosage: 'Half pill (2 MG)', dosageAr: 'نصف حبة (٢ مجم)' },
-        ],
-      },
-      {
-        date: '2026-03-05',
-        doses: [
-          { time: '08:00', dosage: 'Half pill (2 MG)', dosageAr: 'نصف حبة (٢ مجم)' },
-        ],
-      },
-      {
-        date: '2026-03-06',
-        doses: [
-          { time: '08:00', dosage: 'Half pill (2 MG)', dosageAr: 'نصف حبة (٢ مجم)' },
         ],
       },
     ],

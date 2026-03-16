@@ -81,30 +81,34 @@ export default function DashboardScreen() {
 
       if (med.specialSchedule && med.specialSchedule.length > 0) {
         const todayEntry = med.specialSchedule.find((s) => s.date === todayStr);
-        if (!todayEntry) return;
-
-        todayEntry.doses.forEach((dose) => {
-          const log = todayLogs.find(
-            (l) => l.medicationId === med.id && l.scheduledTime === dose.time
-          );
-          schedule.push({
-            medicationId: med.id,
-            medicationName: med.name,
-            medicationNameAr: med.nameAr,
-            time: dose.time,
-            imageUrl: med.imageUrl,
-            color: med.color,
-            dosage: dose.dosage,
-            dosageAr: dose.dosageAr,
-            status: log?.status || 'pending',
-            mealTiming: med.mealTiming,
-            hasSpecialSchedule: true,
-            specialSchedule: med.specialSchedule,
-            specialDosage: dose.dosage,
-            specialDosageAr: dose.dosageAr,
+        if (todayEntry) {
+          todayEntry.doses.forEach((dose) => {
+            const log = todayLogs.find(
+              (l) => l.medicationId === med.id && l.scheduledTime === dose.time
+            );
+            schedule.push({
+              medicationId: med.id,
+              medicationName: med.name,
+              medicationNameAr: med.nameAr,
+              time: dose.time,
+              imageUrl: med.imageUrl,
+              color: med.color,
+              dosage: dose.dosage,
+              dosageAr: dose.dosageAr,
+              status: log?.status || 'pending',
+              mealTiming: med.mealTiming,
+              hasSpecialSchedule: true,
+              specialSchedule: med.specialSchedule,
+              specialDosage: dose.dosage,
+              specialDosageAr: dose.dosageAr,
+            });
           });
-        });
-        return;
+          return;
+        }
+
+        const lastSpecialDate = med.specialSchedule[med.specialSchedule.length - 1].date;
+        if (todayStr < med.specialSchedule[0].date) return;
+        if (todayStr <= lastSpecialDate) return;
       }
 
       if (med.endDate && todayStr > med.endDate) return;
