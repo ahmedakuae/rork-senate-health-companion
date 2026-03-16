@@ -106,8 +106,9 @@ export default function DashboardScreen() {
           return;
         }
 
+        const firstSpecialDate = med.specialSchedule[0].date;
         const lastSpecialDate = med.specialSchedule[med.specialSchedule.length - 1].date;
-        if (todayStr <= lastSpecialDate) return;
+        if (todayStr >= firstSpecialDate && todayStr <= lastSpecialDate) return;
       }
 
       if (med.endDate && todayStr > med.endDate) return;
